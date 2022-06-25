@@ -26,11 +26,6 @@ async function createWindow() {
       ? "http://localhost:3000/worker.html"
       : `file://${path.join(__dirname, "../build/worker.html")}`
   );
-
-  if (isDev) {
-    worker.maximize();
-    worker.webContents.openDevTools();
-  }
   
   const mainWindow = new BrowserWindow({
     width: 800,

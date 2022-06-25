@@ -4,6 +4,7 @@ import "./App.css";
 
 export enum BridgeEventEnum {
   TICK = "TICK",
+  STOP_TICK = "STOP_TICK",
   ADDITION = "ADDITION",
 }
 
@@ -30,8 +31,11 @@ function App() {
           break;
       }
     }
-  }, []);
 
+    return () => window.MessagePortBridge.postMessage({
+      event: BridgeEventEnum.STOP_TICK,
+    });
+  }, []);
 
   return (
     <div className="App">
