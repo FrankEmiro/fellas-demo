@@ -9,40 +9,17 @@
 </head>
 
 <body>
-    <div>Content</div>
     <script>
         const {
             ipcRenderer
         } = require('electron')
 
-        const doWork = (input) => {
-            // Something cpu-intensive.
-            return input + " nice";
-        }
-
-        console.log("Worker renderer setup");
-
-        // We might get multiple clients, for instance if there are multiple windows,
-        // or if the main window reloads.
-        let ticker;
-        let tickCount = 0;
         ipcRenderer.on('new-client', (event) => {
             const [port] = event.ports
             port.onmessage = (event) => {
-                // The event data can be any serializable object (and the event could even
-                // carry other MessagePorts with it!)
-
-                console.log("Worker received a message:", event.data);
-
                 switch (event.data.event) {
                     case "TICK":
-                        if (ticker) {
-                            clearInterval(ticker);
-                            tickCount = 0;
-                        }
-                        
-                        ticker = window.setInterval(() => {
-                            console.log("Tick count:", ++tickCount);
+                        window.setInterval(() => {
                             port.postMessage({
                                 event: "TICK"
                             })
@@ -61,8 +38,6 @@
                         });
                         break;
                 }
-
-                // port.postMessage(result)
             }
         })
     </script>

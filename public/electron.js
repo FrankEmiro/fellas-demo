@@ -13,13 +13,18 @@ if (isDev) {
 
 async function createWindow() {
   const worker = new BrowserWindow({
-    show: false,
-    // maximizable: true,
+    // show: false,
+    maximizable: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     }
   });
+  
+  if (isDev) {
+    worker.maximize();
+    worker.webContents.openDevTools();
+  }
 
   await worker.loadURL(
     isDev

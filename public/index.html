@@ -46,10 +46,10 @@
     class MessagePortBridgeAPI {
       constructor() {
         this.init();
-        console.log("Initialized MessagePortBridgeAPI");
       }
 
       init = () => {
+        console.log("Init")
         const {
           ipcRenderer
         } = require('electron')
