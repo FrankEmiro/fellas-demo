@@ -1,46 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fellas.AI worker</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <script>
-        const {
-            ipcRenderer
-        } = require('electron')
+      const { ipcRenderer } = require("electron");
+      let Test = window.require("./helpers/a_module");
 
-        ipcRenderer.on('new-client', (event) => {
-            const [port] = event.ports
-            port.onmessage = (event) => {
-                switch (event.data.event) {
-                    case "TICK":
-                        window.setInterval(() => {
-                            port.postMessage({
-                                event: "TICK"
-                            })
-                        }, 1000)
-                        break;
-                    case "STOP_TICK":
-                    if (ticker) {
-                            clearInterval(ticker);
-                            tickCount = 0;
-                        }
-                        break;
-                    case "ADDITION":
-                        port.postMessage({
-                            event: "ADDITION",
-                            data: event.data.data + 1
-                        });
-                        break;
-                }
-            }
-        })
+      ipcRenderer.on("new-client", (event) => {
+        const [port] = event.ports;
+        port.onmessage = (event) => {
+          switch (event.data.event) {
+            case "TICK":
+              window.setInterval(() => {
+                port.postMessage({
+                  event: "TICK",
+                });
+              }, 1000);
+              break;
+            case "STOP_TICK":
+              if (ticker) {
+                clearInterval(ticker);
+                tickCount = 0;
+              }
+              break;
+            case "ADDITION":
+              port.postMessage({
+                event: "ADDITION",
+                data: event.data.data + 1,
+              });
+              break;
+          }
+        };
+      });
     </script>
-</body>
-
+  </body>
 </html>
